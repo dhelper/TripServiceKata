@@ -50,8 +50,5 @@
     <ClCompile Include="UserSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TripService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

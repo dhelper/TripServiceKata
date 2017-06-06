@@ -7,7 +7,6 @@
 
 class User;
 
-template<class T>
 class TripService
 {
 public:
@@ -15,8 +14,7 @@ public:
 
 };
 
-template<class T>
-std::list<Trip> TripService<T>::GetTripsByUser(User user)
+std::list<Trip> TripService::GetTripsByUser(User user)
 {
 	std::list<Trip> triplist;
 	User* loggedUser = UserSession::GetInstance()->GetLoggedUser();
@@ -33,7 +31,7 @@ std::list<Trip> TripService<T>::GetTripsByUser(User user)
 		}
 		if (isFriend)
 		{
-			triplist = T::FindTripsByUser(user);
+			triplist = TripDAO::FindTripsByUser(user);
 		}
 		return triplist;
 	}

@@ -1,13 +1,11 @@
 #pragma once
 #include "User.h"
 
-class FakeUserSession;
-class UserSessionAccessor;
-
 class UserSession
 {
 	static UserSession *instance;
 public:
+
 	static UserSession* GetInstance()
 	{
 		if (instance == nullptr)
@@ -30,9 +28,8 @@ public:
 
 private:
 	UserSession() {};
-	UserSession(const UserSession& src) {}
-	UserSession& operator=(const UserSession& rhs) {}
+	virtual ~UserSession() = default;
 
-	friend class FakeUserSession;
-	friend class UserSessionAccessor;
+	UserSession(const UserSession& src) = delete;
+	UserSession& operator=(const UserSession& rhs) = delete;
 };
