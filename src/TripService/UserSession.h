@@ -30,8 +30,9 @@ public:
 
 private:
 	UserSession() {};
-	UserSession(const UserSession& src) {}
-	UserSession& operator=(const UserSession& rhs) {}
+	~UserSession() = default;
+	UserSession(const UserSession& src) = delete;
+	UserSession& operator=(const UserSession& rhs) = delete;
 
 	friend class FakeUserSession;
 	friend class UserSessionAccessor;
