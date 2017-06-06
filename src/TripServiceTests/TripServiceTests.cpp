@@ -10,7 +10,6 @@
 #include "../TripService/UserNotLoggedInException.h"
 #include "UserSessionAccessor.h"
 #include "FakeUserSession.h"
-#include "FakeTripDAO.h"
 
 using namespace testing;
 
@@ -22,7 +21,7 @@ TEST(TripServiceTests, ShouldThrowExceptionWhenUserNotLoggedIn)
 	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(NotLoggedUser));
 	UserSessionAccessor::Set(fakeUserSession);
 
-	TripService<TripDAO> tripService;
+	TripService tripService;
 
 	User dummy(1);
 
@@ -37,7 +36,7 @@ TEST(TripServiceTests, shouldNotReturnTripsWhenLoggedUserIsNotAFriend)
 	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(&user));
 	UserSessionAccessor::Set(fakeUserSession);
 
-	TripService<TripDAO> tripService;
+	TripService tripService;
 
 	User notFriend(2);
 	auto trips = tripService.GetTripsByUser(notFriend);
@@ -53,7 +52,7 @@ TEST(TripServiceTests, shouldReturnTripsWhenLoggedUserIsAFriend)
 	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(&user));
 	UserSessionAccessor::Set(fakeUserSession);
 
-	TripService<FakeTripsDAO> tripService;
+	TripService tripService;
 
 	User myFriend(2);
 	myFriend.AddFriend(user);
