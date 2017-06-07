@@ -11,16 +11,34 @@
 #include "UserSessionAccessor.h"
 #include "FakeUserSession.h"
 #include "FakeTripDAO.h"
+#include <memory>
 
 using namespace testing;
 
-TEST(TripServiceTests, ShouldThrowExceptionWhenUserNotLoggedIn)
+class TripServiceTests : public Test
 {
-	User* NotLoggedUser = nullptr;
+protected:
+	 FakeUserSession* fakeUserSession;
 
-	auto fakeUserSession = new FakeUserSession();
-	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(NotLoggedUser));
-	UserSessionAccessor::Set(fakeUserSession);
+	~TripServiceTests()
+	{
+		//UserSessionAccessor::Set(nullptr);
+	}
+	void SetUp() override
+	{
+		fakeUserSession = new FakeUserSession();
+		UserSessionAccessor::Set(fakeUserSession);
+	}
+
+	void TearDown() override
+	{
+		UserSessionAccessor::Set(nullptr);
+	}
+};
+
+TEST_F(TripServiceTests, ShouldThrowExceptionWhenUserNotLoggedIn)
+{
+	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(nullptr));
 
 	TripService<TripDAO> tripService;
 
@@ -29,13 +47,11 @@ TEST(TripServiceTests, ShouldThrowExceptionWhenUserNotLoggedIn)
 	ASSERT_THROW(tripService.GetTripsByUser(dummy), UserNotLoggedInException);
 }
 
-TEST(TripServiceTests, shouldNotReturnTripsWhenLoggedUserIsNotAFriend)
+TEST_F(TripServiceTests, shouldNotReturnTripsWhenLoggedUserIsNotAFriend)
 {
 	User user(1);
 
-	auto fakeUserSession = new FakeUserSession();
 	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(&user));
-	UserSessionAccessor::Set(fakeUserSession);
 
 	TripService<TripDAO> tripService;
 
@@ -45,13 +61,11 @@ TEST(TripServiceTests, shouldNotReturnTripsWhenLoggedUserIsNotAFriend)
 	ASSERT_EQ(0, trips.size());
 }
 
-TEST(TripServiceTests, shouldReturnTripsWhenLoggedUserIsAFriend)
+TEST_F(TripServiceTests, shouldReturnTripsWhenLoggedUserIsAFriend)
 {
 	User user(1);
 
-	auto fakeUserSession = new FakeUserSession();
 	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(&user));
-	UserSessionAccessor::Set(fakeUserSession);
 
 	TripService<FakeTripsDAO> tripService;
 
