@@ -26,7 +26,7 @@ TEST_CASE("When TripService.GetTripsByUser is Called it ")
 
 		User dummy(1);
 
-		REQUIRE_THROWS(tripService.GetTripsByUser(dummy), UserNotLoggedInException);
+		REQUIRE_THROWS_AS(tripService.GetTripsByUser(dummy), UserNotLoggedInException);
 	}
 
 	SECTION("Should Not Return Trips When Logged User Is Not a Friend")
