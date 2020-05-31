@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../TripService/UserSession.h"
+
 class UserSessionAccessor
 {
 public:

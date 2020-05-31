@@ -1,9 +1,13 @@
+#include "gmock/gmock.h"
 #include "catch.hpp"
 #include "FakeUserSession.h"
 #include "UserSessionAccessor.h"
 #include "../TripService/TripService.h"
 #include "../TripService/User.h"
-#include "gmock/gmock.h"
+
+
+using namespace
+testing;
 
 TEST_CASE("Should throw exception if not logged in", "")
 {
@@ -17,33 +21,18 @@ TEST_CASE("Should throw exception if not logged in", "")
 
 	User dummy(1);
 
-	REQUIRE_THROWS_AS(tripService.GetTripsByUser(dummy), UserNotLoggedInException);
+	REQUIRE_THROWS_AS(
+		tripService.GetTripsByUser(dummy), UserNotLoggedInException);
 }
 
-
-/*
- 
- TEST(TripServiceTests, ShouldThrowExceptionWhenUserNotLoggedIn)
-{
-	User* NotLoggedUser = nullptr;
-
-	auto fakeUserSession = new FakeUserSession();
-	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(NotLoggedUser));
-	UserSessionAccessor::Set(fakeUserSession);
-
-	TripService tripService;
-
-	User dummy(1);
-
-	ASSERT_THROW(tripService.GetTripsByUser(dummy), UserNotLoggedInException);
-}
-
-TEST(TripServiceTests, shouldNotReturnTripsWhenLoggedUserIsNotAFriend)
+TEST_CASE("Should not return trips when logged user is not a friend")
 {
 	User user(1);
 
 	auto fakeUserSession = new FakeUserSession();
-	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(&user));
+	EXPECT_CALL(*fakeUserSession, GetLoggedUser())
+		.WillRepeatedly(Return(&user));
+
 	UserSessionAccessor::Set(fakeUserSession);
 
 	TripService tripService;
@@ -51,10 +40,10 @@ TEST(TripServiceTests, shouldNotReturnTripsWhenLoggedUserIsNotAFriend)
 	User notFriend(2);
 	auto trips = tripService.GetTripsByUser(notFriend);
 
-	ASSERT_EQ(0, trips.size());
+	REQUIRE(trips.size() == 0);
 }
 
-TEST(TripServiceTests, shouldReturnTripsWhenLoggedUserIsAFriend)
+TEST_CASE("Should return trips when logged user is a friend")
 {
 	User user(1);
 
@@ -71,7 +60,5 @@ TEST(TripServiceTests, shouldReturnTripsWhenLoggedUserIsAFriend)
 
 	auto trips = tripService.GetTripsByUser(myFriend);
 
-	ASSERT_THAT(trips, ContainerEq(myFriend.Trips()));
+	REQUIRE_THAT(trips, Catch::Equals(myFriend.Trips()));
 }
-
-*/

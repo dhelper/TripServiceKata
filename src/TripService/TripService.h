@@ -10,13 +10,13 @@ class User;
 class TripService
 {
 public:
-	static std::list<Trip> GetTripsByUser(User user);
+	static std::vector<Trip> GetTripsByUser(User user);
 
 };
 
-std::list<Trip> TripService::GetTripsByUser(User user)
+std::vector<Trip> TripService::GetTripsByUser(User user)
 {
-	std::list<Trip> triplist;
+	std::vector<Trip> triplist;
 	User* loggedUser = UserSession::GetInstance()->GetLoggedUser();
 	bool isFriend = false;
 	if (loggedUser)
