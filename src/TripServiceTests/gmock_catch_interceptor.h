@@ -1,0 +1,23 @@
+#pragma once
+
+#include "gmock/gmock.h"
+
+class gmock_catch_interceptor : public ::testing::EmptyTestEventListener {
+public:
+	gmock_catch_interceptor() = default;
+	virtual ~gmock_catch_interceptor() = default;
+	// Called after a failed assertion or a SUCCEED() invocation.
+	virtual void OnTestPartResult(::testing::TestPartResult const & test_part_result);
+	virtual void OnTestProgramStart(const ::testing::UnitTest& /*unit_test*/);
+	virtual void OnTestIterationStart(const ::testing::UnitTest& /*unit_test*/, int /*iteration*/);
+	virtual void OnEnvironmentsSetUpStart(const ::testing::UnitTest& /*unit_test*/);
+	virtual void OnEnvironmentsSetUpEnd(const ::testing::UnitTest& /*unit_test*/);
+	virtual void OnTestCaseStart(const ::testing::TestCase& /*test_case*/);
+	virtual void OnTestStart(const ::testing::TestInfo& /*test_info*/);
+	virtual void OnTestEnd(const ::testing::TestInfo& /*test_info*/);
+	virtual void OnTestCaseEnd(const ::testing::TestCase& /*test_case*/);
+	virtual void OnEnvironmentsTearDownStart(const ::testing::UnitTest& /*unit_test*/);
+	virtual void OnEnvironmentsTearDownEnd(const ::testing::UnitTest& /*unit_test*/);
+	virtual void OnTestIterationEnd(const ::testing::UnitTest& /*unit_test*/, int /*iteration*/);
+	virtual void OnTestProgramEnd(const ::testing::UnitTest& /*unit_test*/);
+};
