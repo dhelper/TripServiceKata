@@ -1,5 +1,6 @@
 #include "gmock/gmock.h"
 #include "catch.hpp"
+#include "FakeTripsDAO.h"
 #include "FakeUserSession.h"
 #include "UserSessionAccessor.h"
 #include "../TripService/TripService.h"
@@ -51,7 +52,7 @@ TEST_CASE("Should return trips when logged user is a friend")
 	EXPECT_CALL(*fakeUserSession, GetLoggedUser()).WillRepeatedly(Return(&user));
 	UserSessionAccessor::Set(fakeUserSession);
 
-	TripService tripService;
+	TripServiceBase<FakeTripsDAO> tripService;
 
 	User myFriend(2);
 	myFriend.AddFriend(user);

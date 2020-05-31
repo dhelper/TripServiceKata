@@ -7,14 +7,21 @@
 
 class User;
 
-class TripService
+template<class T>
+class TripServiceBase
 {
 public:
 	static std::vector<Trip> GetTripsByUser(User user);
 
 };
 
-std::vector<Trip> TripService::GetTripsByUser(User user)
+class TripService : public TripServiceBase< TripDAO>
+{
+
+};
+
+template <class T>
+std::vector<Trip> TripServiceBase<T>::GetTripsByUser(User user)
 {
 	std::vector<Trip> triplist;
 	User* loggedUser = UserSession::GetInstance()->GetLoggedUser();
@@ -31,7 +38,7 @@ std::vector<Trip> TripService::GetTripsByUser(User user)
 		}
 		if (isFriend)
 		{
-			triplist = TripDAO::FindTripsByUser(user);
+			triplist = T::FindTripsByUser(user);
 		}
 		return triplist;
 	}
