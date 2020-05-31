@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="catch.hpp" />
+    <ClInclude Include="FakeTripsDAO.h" />
     <ClInclude Include="FakeUserSession.h" />
     <ClInclude Include="gmock\gmock.h" />
     <ClInclude Include="gmock_catch_interceptor.h" />
